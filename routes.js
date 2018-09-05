@@ -6,7 +6,7 @@ import DeckList from './components/DeckList'
 import AddCard from './components/AddCard'
 import AddDeck from './components/AddDeck'
 import DeckView from './components/DeckView'
-//import Quiz from './components/Quiz'
+import QuizView from './components/QuizView'
 
 import { gray, white, black } from './utils/colors'
 
@@ -73,8 +73,8 @@ export const MainNavigator = createStackNavigator({
       title: "Add Card"
     }
   },
-/*  Quiz:{
-    screen: Quiz,
+  QuizView:{
+    screen: QuizView,
     navigationOptions:{
       headerTintColor: white,
       headerStyle:{
@@ -83,5 +83,5 @@ export const MainNavigator = createStackNavigator({
       headerBackTitle: null,
       title: "Quiz"
     }
-  }*/
+  }
 })

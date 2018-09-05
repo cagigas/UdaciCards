@@ -3,22 +3,22 @@ import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native
 import { connect } from 'react-redux'
 import { white, black } from '../utils/colors'
 import Deck from './Deck'
+import { resetQuiz } from '../actions'
 
 class DeckView extends Component {
   static navigationOptions = ({ navigation }) => {
     const { deckTitle } = navigation.state.params
     return { title: deckTitle }
   }
-
   render() {
-    const { deck, navigateToAddCard, navigateToStartQuiz, backgroundColor } = this.props
+    const { deck, navigateToAddCard, navigateToStartQuiz, backgroundColor, resetQuiz } = this.props
     return (
       <View style={[styles.container, {backgroundColor: backgroundColor}]}>
         <Deck id={deck.title} title={deck.title} questions={deck.questions} bigFonts={true}/>
         <TouchableOpacity style={[styles.btn, styles.addCardBtn]} onPress={() => navigateToAddCard(deck.title, backgroundColor)}>
           <Text style={[styles.btnText, styles.addCardBtnText]}>Add Card</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.btn, styles.startQuizBtn]} onPress={() => navigateToStartQuiz(deck.title, backgroundColor)}>
+        <TouchableOpacity style={[styles.btn, styles.startQuizBtn]} onPress={() => {resetQuiz();navigateToStartQuiz(deck, backgroundColor)}}>
           <Text style={[styles.btnText, styles.startQuizBtnText]}>Start Quiz</Text>
         </TouchableOpacity>
       </View>
@@ -89,9 +89,10 @@ function mapDispatchToProps(dispatch, {navigation}) {
   const { deckTitle } = navigation.state.params
 
   return {
+    resetQuiz: () => dispatch(resetQuiz()),
     goBack: () => navigation.goBack(),
     navigateToAddCard: (data, data2) => navigation.navigate('AddCard', { deckTitle: data, backgroundColor: data2}),
-    navigateToStartQuiz: (data, data2) => navigation.navigate('Quiz', { deckTitle: data, backgroundColor: data2})
+    navigateToStartQuiz: (data, data2) => navigation.navigate('QuizView', { deck: data, backgroundColor: data2})
   }
 
 }

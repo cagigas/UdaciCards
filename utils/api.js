@@ -1,5 +1,34 @@
 import { AsyncStorage } from 'react-native'
-const DECKS_STORAGE_KEY = 'cagigas'
+import { Notifications, Permissions } from 'expo';
+
+const DECKS_STORAGE_KEY = 'cagigas:decks'
+const DECK_QUIZ_NOTIF = 'cagigas:notification'
+
+function dummyDecks() {
+  return {
+    React: {
+      title: 'React',
+      questions: [
+        {
+          question: 'What is React?',
+          answer: 'A library for managing user interfaces'
+        }, {
+          question: 'Where do you make Ajax requests in React?',
+          answer: 'The componentDidMount lifecycle event'
+        }
+      ]
+    },
+    JavaScript: {
+      title: 'JavaScript',
+      questions: [
+        {
+          question: 'What is a closure?',
+          answer: 'The combination of a function and the lexical environment within which that function was declared.'
+        }
+      ]
+    }
+  }
+}
 
 export function getDecks() {
   return AsyncStorage.getItem(DECKS_STORAGE_KEY).then(parseDecks)
@@ -32,28 +61,52 @@ export function addCardToDeck(deckTitle, {question, answer}) {
 function parseDecks(results) {
   return (results) ? JSON.parse(results) : dummyDecks()
 }
-function dummyDecks() {
+
+
+export function clearLocalNotification () {
+  return AsyncStorage.removeItem(DECK_QUIZ_NOTIF)
+    .then(Notifications.cancelAllScheduledNotificationsAsync)
+}
+
+function createNotification () {
   return {
-    React: {
-      title: 'React',
-      questions: [
-        {
-          question: 'What is React?',
-          answer: 'A library for managing user interfaces'
-        }, {
-          question: 'Where do you make Ajax requests in React?',
-          answer: 'The componentDidMount lifecycle event'
-        }
-      ]
+    title: 'Log your stats!',
+    body: "👋 don't forget to take your test for today!",
+    ios: {
+      sound: true,
     },
-    JavaScript: {
-      title: 'JavaScript',
-      questions: [
-        {
-          question: 'What is a closure?',
-          answer: 'The combination of a function and the lexical environment within which that function was declared.'
-        }
-      ]
+    android: {
+      sound: true,
+      priority: 'high',
+      sticky: false,
+      vibrate: true,
     }
   }
+}
+
+export function setLocalNotification () {
+  AsyncStorage.getItem(DECK_QUIZ_NOTIF)
+    .then(JSON.parse)
+    .then((data) => {
+      if (data === null) {
+        Permissions.askAsync(Permissions.NOTIFICATIONS)
+          .then(({ status }) => {
+            if (status === 'granted') {
+              Notifications.cancelAllScheduledNotificationsAsync()
+
+              let tomorrow = new Date();
+              tomorrow.setDate(tomorrow.getDate() + 1)
+
+              Notifications.scheduleLocalNotificationAsync(
+                createNotification(), {
+                  time: tomorrow,
+                  repeat: 'day',
+                }
+              )
+
+              AsyncStorage.setItem(DECK_QUIZ_NOTIF, JSON.stringify(true))
+            }
+          })
+      }
+    })
 }

@@ -1,6 +1,13 @@
-import {LOAD_DECKS, ADD_DECK, ADD_CARD} from '../actions'
+import {LOAD_DECKS, ADD_DECK, ADD_CARD, ANSWER_QUESTION, RESET_QUIZ} from '../actions'
 
-function decks(state = {}, action) {
+const initialState = {
+  correct: 0,
+  incorrect: 0,
+  currentQuestion: 0,
+  quizStarted: false,
+}
+
+function decks(state = initialState, action) {
   switch (action.type) {
     case LOAD_DECKS:
       return { ...state, decks: action.decks }
@@ -15,7 +22,18 @@ function decks(state = {}, action) {
         out[action.deckTitle].questions.push({question, answer})
       }
       return {...state, decks: out}
+    case ANSWER_QUESTION :
+      action.state ? state.correct += 1 : state.incorrect += 1
+      state.currentQuestion += 1
+      return {
+        ...state
+      }
+    case RESET_QUIZ:
+      return { ...state, ...initialState }
+
+
   }
+
   return state
 
 }

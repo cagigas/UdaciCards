@@ -7,6 +7,7 @@ import reducer from './reducers'
 import { Constants } from 'expo'
 import { MainNavigator } from './routes'
 import { clearDB } from './utils/api'
+import { setLocalNotification } from './utils/api'
 
 function CardsStatusBar ({ backgroundColor, ...props }) {
   return (
@@ -20,7 +21,7 @@ export default class App extends React.Component {
   componentDidMount() {
     clearDB()
     console.log("Cleaning")
-    //setLocalNotification()
+    setLocalNotification()
   }
 
   render() {

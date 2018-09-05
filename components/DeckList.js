@@ -30,7 +30,7 @@ class DeckList extends Component {
   }
   render() {
     const { decks } = this.props
-    
+
     if (!this.state.ready) {
       return (<AppLoading/>)
     }
