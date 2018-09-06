@@ -37,7 +37,7 @@ class QuizView extends Component {
       return (
         <View style={styles.container}>
           <Text style={styles.summary}>
-            Done! You got {percentCorrect}%  correct ({correct} out of {correct + incorrect})
+            You got {percentCorrect}%  correct ({correct} out of {correct + incorrect})
           </Text>
           <TouchableHighlight style={styles.button} onPress={() => resetQuiz()}>
             <Text style={styles.buttonTxt}>Restart Quiz</Text>
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: black,
     borderWidth: 1,
-    width: '60%',
+    width: '70%',
     borderColor: black,
     borderRadius: 10,
     padding: 5,
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   buttonTxt: {
     width: 240,
     color: white,
-    fontSize: 32,
+    fontSize: 30,
     textAlign: 'center'
   },
 })

@@ -19,7 +19,7 @@ function decks(state = initialState, action) {
       }
       if (out[action.deckTitle]) {
         const {question, answer} = action.card
-        out[action.deckTitle].questions.push({question, answer})
+        out[action.deckTitle].questions.concat({question, answer})
       }
       return {...state, decks: out}
     case ANSWER_QUESTION :

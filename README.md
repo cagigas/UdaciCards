@@ -1,6 +1,10 @@
 ## Project Overview
 For the UdaciCards project, you will build a mobile application (Android or iOS - or both) that allows users to study collections of flashcards. The app will allow users to create different categories of flashcards called "decks", add flashcards to those decks, then take quizzes on those decks.
 
+Build by David Gonzalez Cagigas ( https://www.linkedin.com/in/dgcagigas/ )
+
+## Other Libraries
+Redux
 #Specific Requirements
 Use create-react-native-app to build your project.
 Allow users to create a deck which can hold an unlimited number of cards.
@@ -14,6 +18,7 @@ Users should receive a notification to remind themselves to study if they haven'
 `npm install`
 `npm start`
 
+## Tested only on Android!!
 ### UdaciFitness
 
 The best triathlon training app in the world.
